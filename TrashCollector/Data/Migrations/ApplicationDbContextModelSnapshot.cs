@@ -48,22 +48,22 @@ namespace TrashCollector.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4367ed5a-6b7e-48d2-8d22-6d5b9d3f8764",
-                            ConcurrencyStamp = "2d001c71-72ca-499a-8118-0d8ede38809d",
+                            Id = "4a5bcb38-d487-441d-97d6-d50a6b1df9b0",
+                            ConcurrencyStamp = "78ac057a-d638-4c47-b08e-54308564039f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a5868303-b2c0-4cff-b4d8-9c30265af018",
-                            ConcurrencyStamp = "2c61b9ec-8cc6-49d8-8d7c-5d3c8dd3e5a5",
+                            Id = "f6043438-d885-4ca5-9ca3-f68078751847",
+                            ConcurrencyStamp = "fab571bb-9b1a-4d9e-819b-03250093704b",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "ffdbe105-e06a-484a-b5d5-a7d7e4f3a2c9",
-                            ConcurrencyStamp = "beecd09c-231d-4a76-94d9-c937ffc279ee",
+                            Id = "7cc91c4b-c287-443a-822f-091da1fc1df4",
+                            ConcurrencyStamp = "5c0deaa6-4172-4bbd-9724-4dd7a4967213",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -257,6 +257,9 @@ namespace TrashCollector.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -274,7 +277,38 @@ namespace TrashCollector.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdentityUserId");
+
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("TrashCollector.Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Zip")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityUserId");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -326,6 +360,20 @@ namespace TrashCollector.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TrashCollector.Models.Customer", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
+                });
+
+            modelBuilder.Entity("TrashCollector.Models.Employee", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
                 });
 #pragma warning restore 612, 618
         }
