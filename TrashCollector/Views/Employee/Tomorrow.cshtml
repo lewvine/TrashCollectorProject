@@ -1,16 +1,13 @@
 ﻿@model IEnumerable<TrashCollector.Models.Customer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tomorrow";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Customer Pickups for @DateTime.Today.DayOfWeek (@DateTime.Today.Date.ToString("d"))</h1>
+<h1>Customer Pickups for @DateTime.Today.AddDays(1).DayOfWeek (@DateTime.Today.AddDays(1).Date.ToString("d"))</h1>
 <p>
     <a asp-action="Create">Create New</a>
-</p>
-<p>
-    <a asp-action="Tomorrow">Pickups for: @DateTime.Today.AddDays(1).DayOfWeek (@DateTime.Today.AddDays(1).Date.ToString("d")</a>
 </p>
 <table class="table">
     <thead>

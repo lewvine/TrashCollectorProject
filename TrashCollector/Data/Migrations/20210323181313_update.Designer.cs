@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollector.Data;
 
 namespace TrashCollector.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210323181313_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,22 +50,22 @@ namespace TrashCollector.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1d9d2d9f-ba3b-44f0-b8b8-19b25498d79b",
-                            ConcurrencyStamp = "a534c723-2f40-458c-8249-4ba5847acce2",
+                            Id = "3f411d4f-fe5c-499e-91d6-25f63726feef",
+                            ConcurrencyStamp = "fd9ef01b-7459-4b18-818c-9a4cf5adf523",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6e2da958-28ba-4927-8177-2a64b114ee61",
-                            ConcurrencyStamp = "c981af59-ee46-4e7e-80b5-dbe9bd01ec69",
+                            Id = "ec8efa9b-922a-4de5-8135-19321bf02151",
+                            ConcurrencyStamp = "e3ea629b-285f-4276-a60f-3c2d13587fce",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "5ae00cbb-6788-40f7-98ac-dd19d6d9d1ea",
-                            ConcurrencyStamp = "f3275a41-0bf9-452b-b578-73da31df2dea",
+                            Id = "9a699075-906c-4e08-ac06-60b9e312efd5",
+                            ConcurrencyStamp = "7fcfd394-25a6-45d5-8cb6-538f41970790",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -263,9 +265,6 @@ namespace TrashCollector.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("RecentlyPickedUp")
-                        .HasColumnType("bit");
-
                     b.Property<string>("RegularPickUpDay")
                         .HasColumnType("nvarchar(max)");
 
@@ -283,50 +282,6 @@ namespace TrashCollector.Data.Migrations
                     b.HasIndex("IdentityUserId");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 3,
-                            AccountBalance = 0,
-                            Email = "Bob.Johnson@gmail.com",
-                            EndDate = new DateTime(2021, 4, 22, 0, 0, 0, 0, DateTimeKind.Local),
-                            FirstName = "Right Zip Code",
-                            LastName = "Customer",
-                            RecentlyPickedUp = false,
-                            RegularPickUpDay = "Tuesday",
-                            SpecialPickUpDay = new DateTime(2021, 3, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            StartDate = new DateTime(2021, 3, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            Zip = 91911
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccountBalance = 0,
-                            Email = "Bob.Johnson@gmail.com",
-                            EndDate = new DateTime(2021, 4, 22, 0, 0, 0, 0, DateTimeKind.Local),
-                            FirstName = "Recently Picked Up True",
-                            LastName = "Customer",
-                            RecentlyPickedUp = true,
-                            RegularPickUpDay = "Tuesday",
-                            SpecialPickUpDay = new DateTime(2021, 3, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            StartDate = new DateTime(2021, 3, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            Zip = 91911
-                        },
-                        new
-                        {
-                            Id = 1,
-                            AccountBalance = 0,
-                            Email = "Bob.Johnson@gmail.com",
-                            EndDate = new DateTime(2021, 2, 21, 0, 0, 0, 0, DateTimeKind.Local),
-                            FirstName = "End Date False",
-                            LastName = "Customer",
-                            RecentlyPickedUp = false,
-                            RegularPickUpDay = "Tuesday",
-                            SpecialPickUpDay = new DateTime(2021, 3, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            StartDate = new DateTime(2021, 3, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            Zip = 91911
-                        });
                 });
 
             modelBuilder.Entity("TrashCollector.Models.Employee", b =>

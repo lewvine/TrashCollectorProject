@@ -24,16 +24,25 @@ namespace TrashCollector.Controllers
         // GET: CustomerController
         public ActionResult Index()
         {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customers = _context.Customers.ToList();
-            return View(customers);
+            var customer = customers.Where(c => c.IdentityUserId == currentUserId).SingleOrDefault();
+            if(customer != null)
+            {
+                return RedirectToAction("Details", "Customer");
+            }
+            else
+            {
+                return RedirectToAction("Create", "Customer");
+            }
         }
 
         // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
-            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
+            var customer = _context.Customers.SingleOrDefault(c => c.IdentityUserId == currentUserId);
             if (customer.IdentityUserId == currentUserId || this.User.IsInRole("Employee"))
             {
                 return View(customer);
@@ -56,8 +65,8 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Customer customer)
         {
-            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             customer.IdentityUserId = currentUserId;
             _context.Customers.Add(customer);
             _context.SaveChanges();
@@ -67,9 +76,9 @@ namespace TrashCollector.Controllers
         // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
         {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
-            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (customer.IdentityUserId == currentUserId || this.User.IsInRole("Employee"))
             {
                 return View(customer);
@@ -106,6 +115,15 @@ namespace TrashCollector.Controllers
             _context.Remove(customer);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult PickUp(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(e => e.Id == id);
+            customer.AccountBalance += 30;
+            customer.RecentlyPickedUp = true;
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Employee");
         }
     }
 }

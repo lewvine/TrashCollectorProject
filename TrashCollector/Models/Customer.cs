@@ -32,6 +32,8 @@ namespace TrashCollector.Models
         [Display(Name = "Regular Trash Day")]
         public string RegularPickUpDay { get; set; }
 
+        public bool RecentlyPickedUp { get; set; }
+
         [Display(Name = "Special Trash Day"), DataType(DataType.Date)]
         public DateTime SpecialPickUpDay { get; set; }
 
@@ -45,6 +47,5 @@ namespace TrashCollector.Models
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
-
     }
 }

@@ -23,18 +23,82 @@ namespace TrashCollector.Controllers
         public ActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-            var customers = _context.Customers.Where(c=> c.Zip == signedInEmployee.Zip).ToList();
             var today = DateTime.Today;
+            var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
 
-            //Need to include start and stop.
-            var todaysRegularCustomers = customers.Where(c => c.RegularPickUpDay == today.DayOfWeek.ToString()) ;
-            var todaysSpecialCustomers = customers.Where(c => c.SpecialPickUpDay == today);
-            var todaysCustomers = todaysRegularCustomers.Concat(todaysSpecialCustomers);
-            return View(todaysCustomers);
+            //If the user is registered as an employee and has created a login.
+            if (signedInEmployee != null)
+            {
+                //Regular Customers for Today
+                var regularCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
+                                                  .Where(c => c.StartDate < today)
+                                                  .Where(c => c.EndDate > today)
+                                                  .Where(c=>c.RecentlyPickedUp == false)
+                                                  .Where(c => c.RegularPickUpDay == today.DayOfWeek.ToString());
+
+                //Special Customers for Today
+                var specialCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
+                                                  .Where(c => c.StartDate < today)
+                                                  .Where(c => c.EndDate > today)
+                                                  .Where(c=>c.RecentlyPickedUp == false)
+                                                  .Where(c => c.SpecialPickUpDay == today);
+
+                var todaysCustomers = regularCustomers.Concat(specialCustomers);
+
+                if (todaysCustomers != null)
+                {
+                    return View(todaysCustomers);
+                }
+                else
+                {
+                    return RedirectToAction("DoneForToday", "Employee");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Create", "Employee");
+            }
         }
 
+        public ActionResult Tomorrow()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var today = DateTime.Today.AddDays(1);
+            var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+
+            //If the user is registered as an employee and has created a login.
+            if (signedInEmployee != null)
+            {
+                //Regular Customers for Today
+                var regularCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
+                                                  .Where(c => c.StartDate < today)
+                                                  .Where(c => c.EndDate > today)
+                                                  .Where(c => c.RecentlyPickedUp == false)
+                                                  .Where(c => c.RegularPickUpDay == today.DayOfWeek.ToString());
+
+                //Special Customers for Today
+                var specialCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
+                                                  .Where(c => c.StartDate < today)
+                                                  .Where(c => c.EndDate > today)
+                                                  .Where(c => c.RecentlyPickedUp == false)
+                                                  .Where(c => c.SpecialPickUpDay == today);
+
+                var todaysCustomers = regularCustomers.Concat(specialCustomers);
+
+                if (todaysCustomers != null)
+                {
+                    return View(todaysCustomers);
+                }
+                else
+                {
+                    return RedirectToAction("DoneForToday", "Employee");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+        }
         public ActionResult Details(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
@@ -43,6 +107,8 @@ namespace TrashCollector.Controllers
 
         public ActionResult Create()
         {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             return View();
         }
 
@@ -89,6 +155,11 @@ namespace TrashCollector.Controllers
             _context.Remove(employee);
             _context.SaveChanges();
             return View("Customers", "Index");
+        }
+
+        public ActionResult DoneForToday()
+        {
+            return View();
         }
     }
 }
