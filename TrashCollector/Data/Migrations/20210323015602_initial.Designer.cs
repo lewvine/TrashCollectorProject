@@ -10,8 +10,8 @@ using TrashCollector.Data;
 namespace TrashCollector.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210322233215_customer_model")]
-    partial class customer_model
+    [Migration("20210323015602_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,22 +50,22 @@ namespace TrashCollector.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "77b95719-6b96-4ca5-b78d-972283957241",
-                            ConcurrencyStamp = "b4f09f99-8ae6-4bac-ab1e-44a1e48c8005",
+                            Id = "8651d7d4-aa0a-46e0-afe3-eabe39fc9ca2",
+                            ConcurrencyStamp = "a44f8bd3-f95f-487a-a015-4e6e0a40c723",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "369ff2ca-a701-4dbd-8dd6-180ade92f15a",
-                            ConcurrencyStamp = "45377adb-a601-4ec9-8f9c-60afe1d63205",
+                            Id = "e868b04d-6abb-4cc3-aaf7-210495b19db7",
+                            ConcurrencyStamp = "d8c8ca92-d3f3-4062-b897-fba948f1127c",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "3009baed-409d-4724-a112-acfa04ef0724",
-                            ConcurrencyStamp = "b760b3fb-9021-4178-b5c0-b5dcb598f1d9",
+                            Id = "618d8291-6ead-4823-95a4-bf2d5aaeabd9",
+                            ConcurrencyStamp = "11ef0527-08e3-4412-8041-a59432638663",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -259,14 +259,11 @@ namespace TrashCollector.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("int");
-
                     b.Property<string>("RegularPickUpDay")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpecialPickUpDay")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("SpecialPickUpDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Zip")
                         .HasColumnType("int");

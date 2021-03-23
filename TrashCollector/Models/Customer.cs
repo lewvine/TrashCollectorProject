@@ -12,8 +12,6 @@ namespace TrashCollector.Models
         [Key]
         public int Id { get; set; }
 
-        public SelectList Days = new SelectList(new List<string> { "Monday", "Tuesday" });
-
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -32,7 +30,7 @@ namespace TrashCollector.Models
         [Display(Name = "Regular Trash Day")]
         public string RegularPickUpDay { get; set; }
 
-        [Display(Name = "Special Trash Day")]
-        public int SpecialPickUpDay { get; set; }
+        [Display(Name = "Special Trash Day"), DataType(DataType.Date)]
+        public DateTime SpecialPickUpDay { get; set; }
     }
 }

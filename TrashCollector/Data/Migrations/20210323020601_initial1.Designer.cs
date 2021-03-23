@@ -10,8 +10,8 @@ using TrashCollector.Data;
 namespace TrashCollector.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210323005858_edit_customer")]
-    partial class edit_customer
+    [Migration("20210323020601_initial1")]
+    partial class initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,24 +50,10 @@ namespace TrashCollector.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "56521d33-7f9d-4024-9ab1-eeebdb19157a",
-                            ConcurrencyStamp = "ec89c5a5-e1d9-4844-b6bb-668c118ec256",
+                            Id = "3b9d103e-0c54-45eb-a74e-5477ba271ea2",
+                            ConcurrencyStamp = "28a7f090-5faf-4123-a83d-872cf68d7c74",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "59581a19-abe0-4383-81dd-dcba167874bf",
-                            ConcurrencyStamp = "0d56bbf2-80d8-4669-9cd9-2e8642d330a0",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
-                        },
-                        new
-                        {
-                            Id = "ca5903e6-042e-46b9-938d-802bdfcc7e0f",
-                            ConcurrencyStamp = "d2662470-6a27-4ddd-b83f-fc29217da5b9",
-                            Name = "Employee",
-                            NormalizedName = "EMPLOYEE"
                         });
                 });
 
@@ -262,8 +248,8 @@ namespace TrashCollector.Data.Migrations
                     b.Property<string>("RegularPickUpDay")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpecialPickUpDay")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("SpecialPickUpDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Zip")
                         .HasColumnType("int");
