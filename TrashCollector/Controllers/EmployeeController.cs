@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -11,6 +12,7 @@ using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeeController : Controller
     {
         private ApplicationDbContext _context;
@@ -18,7 +20,6 @@ namespace TrashCollector.Controllers
         {
             _context = context;
         }
-        // GET: EmployeeController
         public ActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -26,26 +27,25 @@ namespace TrashCollector.Controllers
             var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
             var customers = _context.Customers.Where(c=> c.Zip == signedInEmployee.Zip).ToList();
             var today = DateTime.Today;
+
+            //Need to include start and stop.
             var todaysRegularCustomers = customers.Where(c => c.RegularPickUpDay == today.DayOfWeek.ToString()) ;
             var todaysSpecialCustomers = customers.Where(c => c.SpecialPickUpDay == today);
             var todaysCustomers = todaysRegularCustomers.Concat(todaysSpecialCustomers);
             return View(todaysCustomers);
         }
 
-        // GET: EmployeeController/Details/5
         public ActionResult Details(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             return View(customer);
         }
 
-        // GET: EmployeeController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EmployeeController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee employee)
@@ -64,14 +64,12 @@ namespace TrashCollector.Controllers
             }
         }
 
-        // GET: EmployeeController/Edit/5
         public ActionResult Edit(int id)
         {
             var employee = _context.Employees.SingleOrDefault(e => e.Id == id);
             return View(employee);
         }
 
-        // POST: EmployeeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Employee employee)
@@ -85,7 +83,6 @@ namespace TrashCollector.Controllers
             return View("Customers", "Index");
         }
 
-        // GET: EmployeeController/Delete/5
         public ActionResult Delete(int id)
         {
             var employee = _context.Employees.SingleOrDefault(e => e.Id == id);

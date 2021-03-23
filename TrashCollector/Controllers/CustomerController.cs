@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TrashCollector.Data;
 using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
+    [Authorize(Roles = "Employee, Customer")]
     public class CustomerController : Controller
     {
         private ApplicationDbContext _context;
@@ -28,8 +31,17 @@ namespace TrashCollector.Controllers
         // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
+            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
-            return View(customer);
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (customer.IdentityUserId == currentUserId || this.User.IsInRole("Employee"))
+            {
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: CustomerController/Create
@@ -45,16 +57,11 @@ namespace TrashCollector.Controllers
         public ActionResult Create(Customer customer)
         {
             ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
-            try
-            {
-                _context.Customers.Add(customer);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            customer.IdentityUserId = currentUserId;
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+            return Redirect($"Details/{customer.Id}");
         }
 
         // GET: CustomerController/Edit/5
@@ -62,7 +69,16 @@ namespace TrashCollector.Controllers
         {
             ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
-            return View(customer);
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (customer.IdentityUserId == currentUserId || this.User.IsInRole("Employee"))
+            {
+                return View(customer);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
 
         // POST: CustomerController/Edit/5
