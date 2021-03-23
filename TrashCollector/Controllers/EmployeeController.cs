@@ -25,7 +25,11 @@ namespace TrashCollector.Controllers
 
             var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
             var customers = _context.Customers.Where(c=> c.Zip == signedInEmployee.Zip).ToList();
-            return View(customers);
+            var today = DateTime.Today;
+            var todaysRegularCustomers = customers.Where(c => c.RegularPickUpDay == today.DayOfWeek.ToString()) ;
+            var todaysSpecialCustomers = customers.Where(c => c.SpecialPickUpDay == today);
+            var todaysCustomers = todaysRegularCustomers.Concat(todaysSpecialCustomers);
+            return View(todaysCustomers);
         }
 
         // GET: EmployeeController/Details/5
