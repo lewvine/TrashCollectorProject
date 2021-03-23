@@ -32,5 +32,12 @@ namespace TrashCollector.Models
 
         [Display(Name = "Special Trash Day"), DataType(DataType.Date)]
         public DateTime SpecialPickUpDay { get; set; }
+
+        [Display(Name = "Start Day"), DataType(DataType.Date)] 
+        //[Range(typeof(DateTime), DateTime.Now.ToString, DateTime StartDate)]
+        public DateTime StartDate { get; set; }
+
+        [Display(Name = "End Day"), DataType(DataType.Date)]
+        public DateTime EndDate { get; set; }
     }
 }

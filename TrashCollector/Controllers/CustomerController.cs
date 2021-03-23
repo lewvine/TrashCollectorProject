@@ -78,6 +78,8 @@ namespace TrashCollector.Controllers
             customerInDB.AccountBalance = customer.AccountBalance;
             customerInDB.RegularPickUpDay = customer.RegularPickUpDay;
             customerInDB.SpecialPickUpDay = customer.SpecialPickUpDay;
+            customerInDB.StartDate = customer.StartDate;
+            customerInDB.EndDate = customer.EndDate;
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
