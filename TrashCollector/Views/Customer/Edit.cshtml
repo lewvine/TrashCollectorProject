@@ -41,18 +41,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="RegularPickUpDay" class="control-label"></label>
-                <input asp-for="RegularPickUpDay" class="form-control" />
+                <select asp-for="RegularPickUpDay" class="form-control" asp-items="@ViewBag.Days"></select>
                 <span asp-validation-for="RegularPickUpDay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SpecialPickUpDay" class="control-label"></label>
                 <input asp-for="SpecialPickUpDay" class="form-control" />
                 <span asp-validation-for="SpecialPickUpDay" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MyProperty" class="control-label"></label>
-                <input asp-for="MyProperty" class="form-control" />
-                <span asp-validation-for="MyProperty" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

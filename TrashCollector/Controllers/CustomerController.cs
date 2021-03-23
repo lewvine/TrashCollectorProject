@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace TrashCollector.Controllers
         // GET: CustomerController/Create
         public ActionResult Create()
         {
+            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"});
             return View();
         }
 
@@ -42,6 +44,7 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Customer customer)
         {
+            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             try
             {
                 _context.Customers.Add(customer);
@@ -57,6 +60,7 @@ namespace TrashCollector.Controllers
         // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             return View(customer);
         }
