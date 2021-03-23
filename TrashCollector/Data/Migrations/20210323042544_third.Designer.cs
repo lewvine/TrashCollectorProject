@@ -10,8 +10,8 @@ using TrashCollector.Data;
 namespace TrashCollector.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210323035815_trickthemfer")]
-    partial class trickthemfer
+    [Migration("20210323042544_third")]
+    partial class third
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,29 @@ namespace TrashCollector.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4eda731a-e987-44d5-b1ba-5a336f477b1e",
+                            ConcurrencyStamp = "8a1b41bd-77de-4209-adb4-ea13ec159cc6",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "400266fa-1cae-4d5d-9c60-c66c07f9e103",
+                            ConcurrencyStamp = "15e03217-2eb2-4beb-9715-1b88124cb8c2",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = "30b93b7b-c7cc-4b93-b637-2890bcad4f24",
+                            ConcurrencyStamp = "cb0dd5ea-1aaa-46eb-8dbb-3d6a2da0af68",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

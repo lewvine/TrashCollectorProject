@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrashCollector.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -180,122 +180,122 @@ namespace TrashCollector.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            //migrationBuilder.CreateTable(
-            //    name: "Employees",
-            //    columns: table => new
-            //    {
-            //        Id = table.Column<int>(nullable: false)
-            //            .Annotation("SqlServer:Identity", "1, 1"),
-            //        FirstName = table.Column<string>(nullable: true),
-            //        LastName = table.Column<string>(nullable: true),
-            //        Email = table.Column<string>(nullable: true),
-            //        Zip = table.Column<int>(nullable: false),
-            //        IdentityUserId = table.Column<string>(nullable: true)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_Employees", x => x.Id);
-            //        table.ForeignKey(
-            //            name: "FK_Employees_AspNetUsers_IdentityUserId",
-            //            column: x => x.IdentityUserId,
-            //            principalTable: "AspNetUsers",
-            //            principalColumn: "Id",
-            //            onDelete: ReferentialAction.Restrict);
-            //    });
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Zip = table.Column<int>(nullable: false),
+                    IdentityUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
-            //migrationBuilder.InsertData(
-            //    table: "AspNetRoles",
-            //    columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-            //    values: new object[] { "207a0932-f978-4c9b-9b59-39ed1997ba62", "6b0d9b5e-5884-47b1-91af-a45bd10de89e", "Admin", "ADMIN" });
+    //        migrationBuilder.InsertData(
+    //            table: "AspNetRoles",
+    //            columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+    //            values: new object[] { "ed25cff6-1e59-4fbd-a6d2-28d35c682778", "3834ec4b-17b5-4610-96c0-ba96b3ea3a55", "Admin", "ADMIN" });
 
-            //migrationBuilder.InsertData(
-            //    table: "AspNetRoles",
-            //    columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-            //    values: new object[] { "360cc3f5-5e71-4014-aea0-eb04e64bccec", "4b2d178e-5b1e-47ad-9b2d-837a3f04d64c", "Customer", "CUSTOMER" });
+    //        migrationBuilder.InsertData(
+    //            table: "AspNetRoles",
+    //            columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+    //            values: new object[] { "7564bd4c-bc15-4301-94e8-db068735c329", "a23a5e61-555f-4adf-9391-5b9550e28d72", "Customer", "CUSTOMER" });
 
-            //migrationBuilder.InsertData(
-            //    table: "AspNetRoles",
-            //    columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-            //    values: new object[] { "ffda1404-2224-41b9-8059-080024eb2248", "a72e4b82-aee3-4a2c-9ea3-ca7a46bd5f65", "Employee", "EMPLOYEE" });
+    //        migrationBuilder.InsertData(
+    //            table: "AspNetRoles",
+    //            columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+    //            values: new object[] { "fdaa420a-60f7-434f-a1c4-8f9b70cbfdf5", "23d3600c-ef0e-48ae-9007-830dfdb07300", "Employee", "EMPLOYEE" });
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_AspNetRoleClaims_RoleId",
-            //    table: "AspNetRoleClaims",
-            //    column: "RoleId");
+    //        migrationBuilder.CreateIndex(
+    //            name: "IX_AspNetRoleClaims_RoleId",
+    //            table: "AspNetRoleClaims",
+    //            column: "RoleId");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "RoleNameIndex",
-            //    table: "AspNetRoles",
-            //    column: "NormalizedName",
-            //    unique: true,
-            //    filter: "[NormalizedName] IS NOT NULL");
+    //        migrationBuilder.CreateIndex(
+    //            name: "RoleNameIndex",
+    //            table: "AspNetRoles",
+    //            column: "NormalizedName",
+    //            unique: true,
+    //            filter: "[NormalizedName] IS NOT NULL");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_AspNetUserClaims_UserId",
-            //    table: "AspNetUserClaims",
-            //    column: "UserId");
+    //        migrationBuilder.CreateIndex(
+    //            name: "IX_AspNetUserClaims_UserId",
+    //            table: "AspNetUserClaims",
+    //            column: "UserId");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_AspNetUserLogins_UserId",
-            //    table: "AspNetUserLogins",
-            //    column: "UserId");
+    //        migrationBuilder.CreateIndex(
+    //            name: "IX_AspNetUserLogins_UserId",
+    //            table: "AspNetUserLogins",
+    //            column: "UserId");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_AspNetUserRoles_RoleId",
-            //    table: "AspNetUserRoles",
-            //    column: "RoleId");
+    //        migrationBuilder.CreateIndex(
+    //            name: "IX_AspNetUserRoles_RoleId",
+    //            table: "AspNetUserRoles",
+    //            column: "RoleId");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "EmailIndex",
-            //    table: "AspNetUsers",
-            //    column: "NormalizedEmail");
+    //        migrationBuilder.CreateIndex(
+    //            name: "EmailIndex",
+    //            table: "AspNetUsers",
+    //            column: "NormalizedEmail");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "UserNameIndex",
-            //    table: "AspNetUsers",
-            //    column: "NormalizedUserName",
-            //    unique: true,
-            //    filter: "[NormalizedUserName] IS NOT NULL");
+    //        migrationBuilder.CreateIndex(
+    //            name: "UserNameIndex",
+    //            table: "AspNetUsers",
+    //            column: "NormalizedUserName",
+    //            unique: true,
+    //            filter: "[NormalizedUserName] IS NOT NULL");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_Customers_IdentityUserId",
-            //    table: "Customers",
-            //    column: "IdentityUserId");
+    //        migrationBuilder.CreateIndex(
+    //            name: "IX_Customers_IdentityUserId",
+    //            table: "Customers",
+    //            column: "IdentityUserId");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_Employees_IdentityUserId",
-            //    table: "Employees",
-            //    column: "IdentityUserId");
-        }
+    //        migrationBuilder.CreateIndex(
+    //            name: "IX_Employees_IdentityUserId",
+    //            table: "Employees",
+    //            column: "IdentityUserId");
+    //    }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+    //    protected override void Down(MigrationBuilder migrationBuilder)
+    //    {
+    //        migrationBuilder.DropTable(
+    //            name: "AspNetRoleClaims");
 
-            migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+    //        migrationBuilder.DropTable(
+    //            name: "AspNetUserClaims");
 
-            migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+    //        migrationBuilder.DropTable(
+    //            name: "AspNetUserLogins");
 
-            migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+    //        migrationBuilder.DropTable(
+    //            name: "AspNetUserRoles");
 
-            migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+    //        migrationBuilder.DropTable(
+    //            name: "AspNetUserTokens");
 
-            migrationBuilder.DropTable(
-                name: "Customers");
+    //        migrationBuilder.DropTable(
+    //            name: "Customers");
 
-            migrationBuilder.DropTable(
-                name: "Employees");
+    //        migrationBuilder.DropTable(
+    //            name: "Employees");
 
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
+    //        migrationBuilder.DropTable(
+    //            name: "AspNetRoles");
 
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
+    //        migrationBuilder.DropTable(
+    //            name: "AspNetUsers");
         }
     }
 }

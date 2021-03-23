@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TrashCollector.Data;
 using TrashCollector.Models;
@@ -20,8 +21,10 @@ namespace TrashCollector.Controllers
         // GET: EmployeeController
         public ActionResult Index()
         {
-            //var employeeZip = _context.
-            var customers = _context.Customers.Where(c=> c.Zip == 28659).ToList();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+            var customers = _context.Customers.Where(c=> c.Zip == signedInEmployee.Zip).ToList();
             return View(customers);
         }
 
@@ -45,9 +48,11 @@ namespace TrashCollector.Controllers
         {
             try
             {
+                var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                employee.IdentityUserId = currentUserId;
                 _context.Employees.Add(employee);
                 _context.SaveChanges();
-                return View("Employees", "Index");
+                return RedirectToAction("Index");
             }
             catch
             {
