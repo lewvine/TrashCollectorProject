@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollector.Data;
 
 namespace TrashCollector.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210324171338_added_location_specifics_to_customer_and_employee_models")]
+    partial class added_location_specifics_to_customer_and_employee_models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,22 +50,22 @@ namespace TrashCollector.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ff0e07ab-c9bf-4600-b337-45b1c1b0ba9b",
-                            ConcurrencyStamp = "581e6e46-1ee4-4400-b4a2-ae76157512f2",
+                            Id = "e4432f94-a530-433d-a40e-815347aac0c1",
+                            ConcurrencyStamp = "36c74860-ea5d-4e0a-a8f1-31d784e28c15",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "52d3a0c9-fcb5-4a7b-be9c-594cf9226d56",
-                            ConcurrencyStamp = "a351f3f8-a240-4d73-adc1-10464cb065b9",
+                            Id = "544eae53-de4b-4dd1-be5d-273fc6edc4b2",
+                            ConcurrencyStamp = "33152c6e-cdfe-4388-bc74-e3eba1449d99",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "b74a6ec5-3551-497a-aa25-0c7f7784a1e6",
-                            ConcurrencyStamp = "21c89088-5d78-4045-b8e1-ed64d85caf91",
+                            Id = "31db44cc-cd01-4ea7-b2c0-15f9042c8eb6",
+                            ConcurrencyStamp = "2f940d1f-9c5c-4353-855f-d1adac8cc7cf",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -275,9 +277,6 @@ namespace TrashCollector.Data.Migrations
                     b.Property<string>("MapLocation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("NextPickUp")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("RecentlyPickedUp")
                         .HasColumnType("bit");
 
@@ -316,7 +315,6 @@ namespace TrashCollector.Data.Migrations
                             LastName = "Customer",
                             Latitude = 0.0,
                             Longitude = 0.0,
-                            NextPickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             RecentlyPickedUp = false,
                             RegularPickUpDay = "Tuesday",
                             SpecialPickUpDay = new DateTime(2021, 3, 27, 0, 0, 0, 0, DateTimeKind.Local),
@@ -333,7 +331,6 @@ namespace TrashCollector.Data.Migrations
                             LastName = "Customer",
                             Latitude = 0.0,
                             Longitude = 0.0,
-                            NextPickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             RecentlyPickedUp = true,
                             RegularPickUpDay = "Tuesday",
                             SpecialPickUpDay = new DateTime(2021, 3, 27, 0, 0, 0, 0, DateTimeKind.Local),
@@ -350,7 +347,6 @@ namespace TrashCollector.Data.Migrations
                             LastName = "Customer",
                             Latitude = 0.0,
                             Longitude = 0.0,
-                            NextPickUp = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             RecentlyPickedUp = false,
                             RegularPickUpDay = "Tuesday",
                             SpecialPickUpDay = new DateTime(2021, 3, 27, 0, 0, 0, 0, DateTimeKind.Local),
@@ -392,9 +388,6 @@ namespace TrashCollector.Data.Migrations
 
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("WorkDay")
-                        .HasColumnType("int");
 
                     b.Property<int>("Zip")
                         .HasColumnType("int");

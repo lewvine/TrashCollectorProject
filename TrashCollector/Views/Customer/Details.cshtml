@@ -5,69 +5,59 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>
+    Details for @Html.DisplayFor(model => model.FirstName)
+    @Html.DisplayFor(model => model.LastName)
+</h1>
+<div class="row">
+    <div class="col-6">
+        <dl class="row">
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.AccountBalance)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.AccountBalance)
+            </dd>
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.RegularPickUpDay)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.RegularPickUpDay)
+            </dd>
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.NextPickUp)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.NextPickUp)
+            </dd>
+            <dt class="col-sm-6">
+                <p>Address</p>
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.Street)
+                @Html.DisplayFor(model => model.City)
+                @Html.DisplayFor(model => model.State)
 
-<div>
-    <h4>Customer</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Zip)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Zip)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountBalance)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AccountBalance)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RegularPickUpDay)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RegularPickUpDay)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SpecialPickUpDay)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SpecialPickUpDay)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-    </dl>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-6">
+        <img style="border: 3px black;" src="@Model.MapLocation" alt="Static Map Image" />
+    </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (this.User.IsInRole("Customer"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    }
+    @if (this.User.IsInRole("Employee"))
+    {
+        <a asp-controller="Employee" asp-action="Index">Back to List</a>
+    }
 </div>

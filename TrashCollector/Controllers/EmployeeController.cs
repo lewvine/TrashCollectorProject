@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.StaticMaps;
+using GoogleMapsApi.StaticMaps.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,85 +23,41 @@ namespace TrashCollector.Controllers
         {
             _context = context;
         }
-        public ActionResult Index()
+        public ActionResult Index(string dayOfWeek)
         {
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var today = DateTime.Today;
             var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
 
-            //If the user is registered as an employee and has created a login.
             if (signedInEmployee != null)
             {
-                //Regular Customers for Today
-                var regularCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
-                                                  .Where(c => c.StartDate < today)
-                                                  .Where(c => c.EndDate > today)
-                                                  .Where(c=>c.RecentlyPickedUp == false)
-                                                  .Where(c => c.RegularPickUpDay == today.DayOfWeek.ToString());
+                var pickUpDayShown = DateTime.Today;
 
-                //Special Customers for Today
-                var specialCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
-                                                  .Where(c => c.StartDate < today)
-                                                  .Where(c => c.EndDate > today)
-                                                  .Where(c=>c.RecentlyPickedUp == false)
-                                                  .Where(c => c.SpecialPickUpDay == today);
-
-                var todaysCustomers = regularCustomers.Concat(specialCustomers);
-
-                if (todaysCustomers != null)
+                //If the index search parameter is null, make dayOfWeek to today's day.
+                if (dayOfWeek == null)
                 {
-                    return View(todaysCustomers);
+                    dayOfWeek = DateTime.Today.DayOfWeek.ToString();
                 }
-                else
+                //If the default pickupDayShown isn't the value of the dayOfWeek parameter
+                //Add a day to pickUpDayShown until it matches dayOfWeek
+                var i = 0;
+                while (pickUpDayShown.DayOfWeek.ToString() != dayOfWeek)
                 {
-                    return RedirectToAction("DoneForToday", "Employee");
+                    i++;
+                    pickUpDayShown = DateTime.Today.AddDays(i);
                 }
+                var todaysCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
+                                                        .Where(c => c.NextPickUp.Date == pickUpDayShown.Date);
+                ViewBag.Day = pickUpDayShown;
+                return View(todaysCustomers);
             }
             else
             {
                 return RedirectToAction("Create", "Employee");
             }
+
         }
 
-        public ActionResult Tomorrow()
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var today = DateTime.Today.AddDays(1);
-            var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-
-            //If the user is registered as an employee and has created a login.
-            if (signedInEmployee != null)
-            {
-                //Regular Customers for Today
-                var regularCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
-                                                  .Where(c => c.StartDate < today)
-                                                  .Where(c => c.EndDate > today)
-                                                  .Where(c => c.RecentlyPickedUp == false)
-                                                  .Where(c => c.RegularPickUpDay == today.DayOfWeek.ToString());
-
-                //Special Customers for Today
-                var specialCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
-                                                  .Where(c => c.StartDate < today)
-                                                  .Where(c => c.EndDate > today)
-                                                  .Where(c => c.RecentlyPickedUp == false)
-                                                  .Where(c => c.SpecialPickUpDay == today);
-
-                var todaysCustomers = regularCustomers.Concat(specialCustomers);
-
-                if (todaysCustomers != null)
-                {
-                    return View(todaysCustomers);
-                }
-                else
-                {
-                    return RedirectToAction("DoneForToday", "Employee");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Create", "Employee");
-            }
-        }
         public ActionResult Details(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);

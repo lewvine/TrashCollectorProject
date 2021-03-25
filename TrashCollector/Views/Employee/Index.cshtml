@@ -5,44 +5,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Customer Pickups for @DateTime.Today.DayOfWeek (@DateTime.Today.Date.ToString("d"))</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<p>
-    <a asp-action="Tomorrow">Pickups for: @DateTime.Today.AddDays(1).DayOfWeek (@DateTime.Today.AddDays(1).Date.ToString("d")</a>
-</p>
+<h1>Customer Pickups for @ViewBag.Day.Date.ToString("d"), @ViewBag.Day.DayOfWeek</h1>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Sort By Day: @Html.TextBox("dayOfWeek")
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Zip)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountBalance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RegularPickUpDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpecialPickUpDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th></th>
+            <th><p>Name</p></th>
+            <th><p>E-Mail</p></th>
+            <th><p>Address</p></th>
+            <th><p>Account Balance</p></th>
         </tr>
     </thead>
     <tbody>
@@ -51,36 +29,26 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Street)
+                    @Html.DisplayFor(modelItem => item.City)
+                    @Html.DisplayFor(modelItem => item.State)
                     @Html.DisplayFor(modelItem => item.Zip)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AccountBalance)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegularPickUpDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SpecialPickUpDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    <a asp-controller="Customer" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-controller="Customer" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="Customer" asp-action="Pickup" asp-route-id="@item.Id">Confirm Pickup</a> |
-
+                    <a asp-controller="Customer" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (DateTime.Today == ViewBag.Day)
+                    {
+                        <a asp-controller="Customer" asp-action="Pickup" asp-route-id="@item.Id">Confirm Pickup</a>
+                    }
                 </td>
             </tr>
         }
