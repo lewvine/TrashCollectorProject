@@ -25,7 +25,7 @@ namespace TrashCollector.Controllers
         }
         public ActionResult Index(string dayOfWeek)
         {
-
+            ViewBag.Days = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" });
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var signedInEmployee = _context.Employees.Where(e => e.IdentityUserId == userId).SingleOrDefault();
 

@@ -9,8 +9,12 @@
 
 @using (Html.BeginForm())
 {
-    <p>
+    @*<p>
         Sort By Day: @Html.TextBox("dayOfWeek")
+        <input type="submit" value="Search" />
+    </p>*@
+    <p>
+        Sort By Day: @Html.DropDownList("dayOfWeek", new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" }), "Select Day");
         <input type="submit" value="Search" />
     </p>
 }
