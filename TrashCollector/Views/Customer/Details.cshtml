@@ -47,9 +47,28 @@
             </dd>
         </dl>
     </div>
-    <div class="col-6">
-        <img style="border: 3px black;" src="@Model.MapLocation" alt="Static Map Image" />
-    </div>
+    <div id="pickupMap" class="col-6 google-map" styles="width: 80%; height: 600px;"></div>
+    <script>
+        function myMap() {
+            const latAndLong = { lat: @Model.Latitude, lng: @Model.Longitude };
+
+            var mapProp = {
+                center: latAndLong,
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                
+            };
+
+            var map = new google.maps.Map(document.getElementById("pickupMap"), mapProp);
+
+            var marker = new google.maps.Marker({
+                position: latAndLong,
+                map: map,
+                title: '@(Model.FirstName)',
+                visible: true
+            });
+        };
+    </script>
 </div>
 <div>
     @if (this.User.IsInRole("Customer"))
@@ -61,3 +80,4 @@
         <a asp-controller="Employee" asp-action="Index">Back to List</a>
     }
 </div>
+<script src=@("https://maps.googleapis.com/maps/api/js?key=" + TrashCollector.Utilities.APIs.MapsKey + "&callback=myMap") async></script>

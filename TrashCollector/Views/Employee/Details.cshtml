@@ -9,7 +9,8 @@
 
 <div>
     <h4>Customer</h4>
-    <img src="@Model.MapLocation" alt="Static Map Image" />
+    @*<img src="@Model.MapLocation" alt="Static Map Image" />*@
+
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -44,7 +45,26 @@
         </dd>
     </dl>
 </div>
+<div id="pickupMap" class="google-map" styles="width: 80%; height: 600px;"></div>
+<script>
+    function myMap() {
+        const latAndLong = { lat: @Model.Latitude, lng: @Model.Longitude };
+        var mapProp = {
+            center: latAndLong,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("pickupMap"), mapProp);
+
+        var market = new google.maps.Marker({
+            position: latAndLng,
+            map: map,
+            title: @(Model.FirstName + " " + Model.LastName + "s' address"),
+            visible: true
+         });
+</script>
 <div>
-    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
     <a asp-action="Index">Back to List</a>
 </div>
+<script src=@("https://maps.googleapis.com/maps/api/js?key=" + TrashCollector.Utilities.APIs.MapsKey + "&callback=myMap)")></script>
