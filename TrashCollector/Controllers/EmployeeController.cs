@@ -46,6 +46,7 @@ namespace TrashCollector.Controllers
                     i++;
                     pickUpDayShown = DateTime.Today.AddDays(i);
                 }
+               
                 var todaysCustomers = _context.Customers.Where(c => c.Zip == signedInEmployee.Zip)
                                                         .Where(c => c.NextPickUp.Date == pickUpDayShown.Date);
                 ViewBag.Day = pickUpDayShown;
